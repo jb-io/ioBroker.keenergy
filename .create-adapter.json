@@ -1,0 +1,40 @@
+{
+    "cli": true,
+    "target": "directory",
+    "adapterName": "keenergy",
+    "title": "keenergy adapter for ioBroker",
+    "expert": "yes",
+    "features": [
+        "adapter"
+    ],
+    "adminFeatures": [],
+    "type": "climate-control",
+    "startMode": "daemon",
+    "connectionType": "local",
+    "dataSource": "poll",
+    "connectionIndicator": "yes",
+    "language": "JavaScript",
+    "nodeVersion": "16",
+    "adminUi": "json",
+    "tools": [
+        "ESLint",
+        "type checking"
+    ],
+    "releaseScript": "no",
+    "devServer": "yes",
+    "devServerPort": 8081,
+    "indentation": "Space (4)",
+    "quotes": "single",
+    "es6class": "yes",
+    "authorName": "jb-tool",
+    "authorGithub": "jb-tool",
+    "authorEmail": "iobroker.dev@joshua.billert.email",
+    "gitRemoteProtocol": "SSH",
+    "gitCommit": "no",
+    "defaultBranch": "master",
+    "license": "MIT License",
+    "dependabot": "yes",
+    "creatorVersion": "2.2.0",
+    "replay": "/home/joshua/Projects/ioBroker/keenergy/ioBroker.keenergy/.create-adapter.json",
+    "description": "Adapter for KEBA KeEnergy Web HMI - Remote Control"
+}
