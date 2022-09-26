@@ -1,5 +1,6 @@
 {
     "keenergy adapter settings": "Impostazioni dell'adattatore per keenergy",
-    "option1": "opzione 1",
-    "option2": "opzione 2"
+    "host": "Ospite",
+    "updateInterval": "Intervallo di aggiornamento",
+    "languageCode": "Lingua"
 }

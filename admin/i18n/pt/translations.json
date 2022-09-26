@@ -1,5 +1,6 @@
 {
-    "keenergy adapter settings": "Configurações do adaptador para keenergy",
-    "option1": "Opção 1",
-    "option2": "opção 2"
+    "keenergy adapter settings": "Configurações do adaptador para sharpergy",
+    "host": "Hospedeiro",
+    "updateInterval": "Intervalo de atualização",
+    "languageCode": "Linguagem"
 }

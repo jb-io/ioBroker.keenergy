@@ -1,5 +1,6 @@
 {
-    "keenergy adapter settings": "Paramètres d'adaptateur pour keenergy",
-    "option1": "Option 1",
-    "option2": "Option 2"
+    "keenergy adapter settings": "Paramètres de l'adaptateur pour keenergy",
+    "host": "Héberger",
+    "updateInterval": "Intervalle de mise à jour",
+    "languageCode": "Langue"
 }
