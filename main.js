@@ -86,9 +86,9 @@ class Keenergy extends utils.Adapter {
         if (await keba.checkConnection()) {
             this.setConnectionState(true);
 
-            await keba.collectReadWriteVars();
+            const readWriteVars = await keba.getReadWriteVars();
 
-            for (const name in keba.readWriteVars) {
+            for (const name in readWriteVars) {
                 await this.createKebaState(name);
             }
 
