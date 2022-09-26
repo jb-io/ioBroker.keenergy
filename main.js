@@ -37,8 +37,8 @@ class Keenergy extends utils.Adapter {
         // Initialize your adapter here
         globalUtils.adapter = this;
 
-        const config = this.config;
-
+        // const config = this.config;
+        //
         // The adapters config (in the instance object everything under the attribute "native") is accessible via
         // this.config:
         // this.log.debug('config host: ' + config.host);
@@ -108,7 +108,8 @@ class Keenergy extends utils.Adapter {
 
     async createKebaState(name) {
 
-        const item = this.keba.readWriteVars[name];
+        const readWriteVars = await this.keba.getReadWriteVars();
+        const item = readWriteVars[name];
         const id = this.utils.transformVariablePath(name);
 
         const typeMapping = {
@@ -153,6 +154,7 @@ class Keenergy extends utils.Adapter {
         });
 
         if (item.writable) {
+            // TODO: Subscribe also readOnly states in order to recreate deleted states
             // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
             this.subscribeStates(id);
             // You can also add a subscription for multiple states. The following line watches all states starting with "lights."
@@ -170,13 +172,14 @@ class Keenergy extends utils.Adapter {
     async onPeriodically() {
         if (await this.keba.checkConnection()) {
 
-            const ids = Object.keys(this.keba.readWriteVars);
+            const readWriteVars = await this.keba.getReadWriteVars();
+            const ids = Object.keys(readWriteVars);
             const data = await this.keba.readVars(ids);
 
             const promises = [];
 
             for (const item of data) {
-                const itemDefinition = this.keba.readWriteVars[item.name];
+                const itemDefinition = readWriteVars[item.name];
                 const val = this.normalizeStateValue(item.value, itemDefinition.type);
                 promises.push(this.setStateAsync(this.utils.transformVariablePath(item.name), { val, ack: true }));
             }
@@ -259,7 +262,8 @@ class Keenergy extends utils.Adapter {
      */
     async onStateChangeExternal(id, state) {
         const name = this.utils.reverseTransformVariablePath(id);
-        const itemDefinition = this.keba.readWriteVars[name];
+        const readWriteVars = await this.keba.getReadWriteVars();
+        const itemDefinition = readWriteVars[name];
         if (!(itemDefinition && itemDefinition.writable)) {
             this.log.info(`Ignoring state ${id} changed: ${state.val} (ack = ${state.ack}, by = ${state.from}) because var is not writable.`);
             return;
