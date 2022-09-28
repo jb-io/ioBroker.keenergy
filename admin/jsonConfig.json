@@ -74,6 +74,11 @@
             "min": 0,
             "max": 99,
             "newLine": true
+        },
+        "reloadAllStates": {
+            "type": "checkbox",
+            "label": "Remove all states on adapter start",
+            "newLine": true
         }
     }
 }

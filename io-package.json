@@ -84,7 +84,8 @@
         "languageCode": "auto",
         "systemUnit": "auto",
         "maxDisplayLevel": "2",
-        "maxInputLevel": "2"
+        "maxInputLevel": "2",
+        "reloadAllStates": "0"
     },
     "objects": [],
     "instanceObjects": [

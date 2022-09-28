@@ -93,15 +93,23 @@ class Keenergy extends utils.Adapter {
     }
 
     async createStates() {
-        const states = await this.kebaMiddleware.getStateConfigurations();
 
+        if (this.config.reloadAllStates) {
+            const existingStateIds = await this.getExistingStateIds();
+            for (const id in existingStateIds) {
+                await this.delStateAsync(this.#removeNamespaceFromStateId(id));
+            }
+        }
+
+        const states = await this.kebaMiddleware.getStateConfigurations();
         for (const id in states) {
             const obj = states[id];
-            await this.setObjectNotExistsAsync(id, obj);
-            this._stateIds.push(id);
+            await this.setObjectNotExistsAsync(id, obj).then(() => {
+                this._stateIds.push(id);
+            });
 
-            if (obj.common.writable) {
-                // TODO: Subscribe also readOnly states in order to recreate deleted states
+
+            if (obj.common.write) {
                 // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
                 this.subscribeStates(id);
                 // You can also add a subscription for multiple states. The following line watches all states starting with "lights."
@@ -121,13 +129,21 @@ class Keenergy extends utils.Adapter {
         if (await this.kebaMiddleware.keba.checkConnection()) {
 
             const states = await this.kebaMiddleware.readStates(this._stateIds);
+            const existingStateIds = await this.getExistingStateIds();
 
             for (const id in states) {
                 const val = states[id];
+                if (!existingStateIds.includes(id)) {
+                    await this.setObjectNotExistsAsync(id, await this.kebaMiddleware.getStateConfiguration(id));
+                }
                 await this.setStateAsync(id, { val, ack: true });
             }
 
         }
+    }
+
+    async getExistingStateIds() {
+        return Object.keys(await this.getStatesAsync('APPL.*')).map((id) => this.#removeNamespaceFromStateId(id));
     }
 
     /**
@@ -155,6 +171,8 @@ class Keenergy extends utils.Adapter {
         this.log.warn(`state ${id} deleted`);
         this.log.debug(`recreate state ${id} in order to avoid errors.`);
         await this.setObjectNotExistsAsync(id, await this.kebaMiddleware.getStateConfiguration(id));
+        const val = await this.kebaMiddleware.readState(id);
+        await this.setStateAsync(id, { val, ack: true });
     }
 
     /**
@@ -164,11 +182,19 @@ class Keenergy extends utils.Adapter {
      */
     async onStateChangeExternal(id, state) {
         try {
-            await this.kebaMiddleware.writeState(id, state.val);
+            const newVal = await this.kebaMiddleware.writeState(id, state.val);
             this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack}, by = ${state.from})`);
+            await this.setStateAsync(id, { val: newVal, ack: true });
         } catch (e) {
             this.log.warn(`Ignoring state ${id} changed: ${state.val} (ack = ${state.ack}, by = ${state.from}) because var is not writable.`);
         }
+    }
+
+    #removeNamespaceFromStateId(id) {
+        if (id.search(this.namespace) === 0) {
+            id = id.substring(this.namespace.length + 1);
+        }
+        return id;
     }
 
     /**
@@ -177,9 +203,7 @@ class Keenergy extends utils.Adapter {
      * @param {ioBroker.State | null | undefined} state
      */
     async onStateChange(id, state) {
-        if (id.search(this.namespace) === 0) {
-            id = id.substring(this.namespace.length + 1);
-        }
+        id = this.#removeNamespaceFromStateId(id);
 
         if (!state) {
             // The state was deleted
