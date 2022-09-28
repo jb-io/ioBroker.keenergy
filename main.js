@@ -9,8 +9,7 @@
 const utils = require('@iobroker/adapter-core');
 
 // Load your modules here:
-const Keba = require('./lib/Keba');
-const AdapterUtils = require('./lib/AdapterUtils');
+const KebaMiddleware = require('./lib/KebaMiddleware');
 const globalUtils = require('./lib/globalUtils');
 
 
@@ -30,7 +29,9 @@ class Keenergy extends utils.Adapter {
         // this.on('message', this.onMessage.bind(this));
         this.on('unload', this.onUnload.bind(this));
 
-        this._keba = null;
+        this._periodically = null;
+        this._kebaMiddleware = null;
+        this._stateIds = [];
     }
 
     init() {
@@ -46,23 +47,13 @@ class Keenergy extends utils.Adapter {
     }
 
     /**
-     * @returns {Keba}
+     * @returns {KebaMiddleware}
      */
-    get keba() {
-        if (!this._keba) {
-            this._keba = new Keba();
+    get kebaMiddleware() {
+        if (!this._kebaMiddleware) {
+            this._kebaMiddleware = new KebaMiddleware();
         }
-        return this._keba;
-    }
-
-    /**
-     * @returns {AdapterUtils}
-     */
-    get utils() {
-        if (!this._utils) {
-            this._utils = new AdapterUtils();
-        }
-        return this._utils;
+        return this._kebaMiddleware;
     }
 
     /**
@@ -82,15 +73,10 @@ class Keenergy extends utils.Adapter {
 
         this.init();
 
-        const keba = this.keba;
-        if (await keba.checkConnection()) {
+        if (await this.kebaMiddleware.keba.checkConnection()) {
             this.setConnectionState(true);
 
-            const readWriteVars = await keba.getReadWriteVars();
-
-            for (const name in readWriteVars) {
-                await this.createKebaState(name);
-            }
+            await this.createStates();
 
             this.registerPeriodicalCall();
         }
@@ -106,124 +92,42 @@ class Keenergy extends utils.Adapter {
         // }
     }
 
-    async createKebaState(name) {
+    async createStates() {
+        const states = await this.kebaMiddleware.getStateConfigurations();
 
-        const readWriteVars = await this.keba.getReadWriteVars();
-        const item = readWriteVars[name];
-        const id = this.utils.transformVariablePath(name);
+        for (const id in states) {
+            const obj = states[id];
+            await this.setObjectNotExistsAsync(id, obj);
+            this._stateIds.push(id);
 
-        const typeMapping = {
-            'numeric': 'number',
-            'bool': 'boolean',
-            'enum': 'string',
-            'text': 'string',
-        }
-
-        let descriptiveName = item.name;
-        if (item.attributes && item.attributes['longText']) {
-            descriptiveName = item.attributes['longText'];
-        }
-        const common = {
-            name: descriptiveName,
-            type: typeMapping[item.type],
-            role: 'value',
-            read: true,
-            write: item.writable,
-        };
-        if (item.unit) {
-            common.unit = item.unit;
-        }
-        if (item.formats) {
-            common.states = {};
-            for (let i = 0; i < item.formats.length; i++) {
-                common.states[i] = item.formats[i] || `UNDEFINED (${i})`;
+            if (obj.common.writable) {
+                // TODO: Subscribe also readOnly states in order to recreate deleted states
+                // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
+                this.subscribeStates(id);
+                // You can also add a subscription for multiple states. The following line watches all states starting with "lights."
+                // this.subscribeStates('lights.*');
+                // Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
+                // this.subscribeStates('*');
             }
-        }
-        if (item.attributes) {
-            if (item.attributes['upperLimit']) {
-                common.max = parseInt(item.attributes['upperLimit']);
-            }
-            if (item.attributes['lowerLimit']) {
-                common.min = parseInt(item.attributes['lowerLimit']);
-            }
-        }
-        await this.setObjectNotExistsAsync(id, {
-            type: 'state',
-            common,
-            native: {},
-        });
-
-        if (item.writable) {
-            // TODO: Subscribe also readOnly states in order to recreate deleted states
-            // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
-            this.subscribeStates(id);
-            // You can also add a subscription for multiple states. The following line watches all states starting with "lights."
-            // this.subscribeStates('lights.*');
-            // Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
-            // this.subscribeStates('*');
         }
     }
 
     registerPeriodicalCall() {
         const updateInterval = parseInt(this.config.updateInterval) * 1000;
-        this.periodically = this.setInterval(this.onPeriodically.bind(this), updateInterval);
+        this._periodically = this.setInterval(this.onPeriodically.bind(this), updateInterval);
     }
 
     async onPeriodically() {
-        if (await this.keba.checkConnection()) {
+        if (await this.kebaMiddleware.keba.checkConnection()) {
 
-            const readWriteVars = await this.keba.getReadWriteVars();
-            const ids = Object.keys(readWriteVars);
-            const data = await this.keba.readVars(ids);
+            const states = await this.kebaMiddleware.readStates(this._stateIds);
 
-            const promises = [];
-
-            for (const item of data) {
-                const itemDefinition = readWriteVars[item.name];
-                const val = this.normalizeStateValue(item.value, itemDefinition.type);
-                promises.push(this.setStateAsync(this.utils.transformVariablePath(item.name), { val, ack: true }));
+            for (const id in states) {
+                const val = states[id];
+                await this.setStateAsync(id, { val, ack: true });
             }
 
-            await Promise.all(promises);
         }
-    }
-
-    /**
-     *
-     * @param {string} val
-     * @param {string | null} type
-     * @returns {any}
-     */
-    normalizeStateValue(val, type = null) {
-        switch (type) {
-            case 'numeric':
-            case 'number':
-                return parseFloat(val);
-            case 'boolean':
-            case 'bool':
-                return val === 'true';
-
-        }
-        return val;
-    }
-
-    /**
-     *
-     * @param {any} val
-     * @param {string | null} type
-     * @returns {string}
-     */
-    denormalizeStateValue(val, type = null) {
-        type = type || typeof val;
-        switch (type) {
-            case 'number': {
-                return `${val}`;
-            }
-            case 'boolean': {
-                return val ? 'true' : 'false';
-            }
-        }
-        return val;
     }
 
     /**
@@ -233,8 +137,8 @@ class Keenergy extends utils.Adapter {
     onUnload(callback) {
         try {
             // Here you must clear all timeouts or intervals that may still be active
-            if (this.periodically) {
-                this.clearInterval(this.periodically);
+            if (this._periodically) {
+                this.clearInterval(this._periodically);
             }
 
             callback();
@@ -248,11 +152,9 @@ class Keenergy extends utils.Adapter {
      * @param {string} id
      */
     async onStateDeleted(id) {
-        const name = this.utils.reverseTransformVariablePath(id);
-
         this.log.warn(`state ${id} deleted`);
         this.log.debug(`recreate state ${id} in order to avoid errors.`);
-        await this.createKebaState(name);
+        await this.setObjectNotExistsAsync(id, await this.kebaMiddleware.getStateConfiguration(id));
     }
 
     /**
@@ -261,15 +163,12 @@ class Keenergy extends utils.Adapter {
      * @param {ioBroker.State} state
      */
     async onStateChangeExternal(id, state) {
-        const name = this.utils.reverseTransformVariablePath(id);
-        const readWriteVars = await this.keba.getReadWriteVars();
-        const itemDefinition = readWriteVars[name];
-        if (!(itemDefinition && itemDefinition.writable)) {
-            this.log.info(`Ignoring state ${id} changed: ${state.val} (ack = ${state.ack}, by = ${state.from}) because var is not writable.`);
-            return;
+        try {
+            await this.kebaMiddleware.writeState(id, state.val);
+            this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack}, by = ${state.from})`);
+        } catch (e) {
+            this.log.warn(`Ignoring state ${id} changed: ${state.val} (ack = ${state.ack}, by = ${state.from}) because var is not writable.`);
         }
-        this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack}, by = ${state.from})`);
-        await this.keba.writeVar(name, this.denormalizeStateValue(state.val, itemDefinition.type));
     }
 
     /**
