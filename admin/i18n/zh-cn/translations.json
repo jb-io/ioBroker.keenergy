@@ -1,5 +1,6 @@
 {
     "keenergy adapter settings": "keenergy的适配器设置",
-    "option1": "选项1",
-    "option2": "选项2"
+    "host": "主持人",
+    "updateInterval": "更新间隔",
+    "languageCode": "语"
 }

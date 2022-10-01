@@ -1,5 +1,6 @@
 {
     "keenergy adapter settings": "Adapterinstellingen voor keenergy",
-    "option1": "Optie 1",
-    "option2": "Optie 2"
+    "host": "Gastheer",
+    "updateInterval": "Bijwerkingsonderbreking",
+    "languageCode": "Taal"
 }

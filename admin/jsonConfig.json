@@ -2,14 +2,82 @@
     "i18n": true,
     "type": "panel",
     "items": {
-        "option1": {
-            "type": "checkbox",
-            "label": "option1",
+        "host": {
+            "type": "text",
+            "label": "Host",
             "newLine": true
         },
-        "option2": {
-            "type": "text",
-            "label": "option2",
+        "timeout": {
+            "type": "number",
+            "label": "Timeout",
+            "min": 100,
+            "newLine": true
+        },
+        "updateInterval": {
+            "type": "number",
+            "label": "Update Interval",
+            "min": 10,
+            "newLine": true
+        },
+        "languageCode": {
+            "type": "select",
+            "label": "Language Code",
+            "options": [
+                {
+                    "label": "auto",
+                    "value": "auto"
+                },
+                {
+                    "label": "en",
+                    "value": "en"
+                },
+                {
+                    "label": "de",
+                    "value": "de"
+                },
+                {
+                    "label": "fr",
+                    "value": "fr"
+                }
+            ],
+            "newLine": true
+        },
+        "systemUnit": {
+            "type": "select",
+            "label": "System Unit",
+            "options": [
+                {
+                    "label": "auto",
+                    "value": "auto"
+                },
+                {
+                    "label": "imperial",
+                    "value": "imperial"
+                },
+                {
+                    "label": "iso",
+                    "value": "iso"
+                }
+            ],
+            "newLine": true
+        },
+        "maxDisplayLevel": {
+            "type": "number",
+            "label": "Max display level",
+            "min": 0,
+            "max": 99,
+            "newLine": true
+        },
+        "maxInputLevel": {
+            "type": "number",
+            "label": "Max input level",
+            "min": 0,
+            "max": 99,
+            "newLine": true
+        },
+        "reloadAllStates": {
+            "type": "checkbox",
+            "label": "Remove all states on adapter start",
             "newLine": true
         }
     }

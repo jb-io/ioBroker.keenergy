@@ -78,8 +78,14 @@
         ]
     },
     "native": {
-        "option1": true,
-        "option2": "42"
+        "host": "127.0.0.1",
+        "timeout": "3000",
+        "updateInterval": "300",
+        "languageCode": "auto",
+        "systemUnit": "auto",
+        "maxDisplayLevel": "2",
+        "maxInputLevel": "2",
+        "reloadAllStates": "0"
     },
     "objects": [],
     "instanceObjects": [
