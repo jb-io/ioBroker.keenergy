@@ -19,10 +19,13 @@
     "url": "git@github.com:jb-tool/ioBroker.keenergy.git"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.6.0"
+    "@iobroker/adapter-core": "^2.6.0",
+    "axios": "^0.27.2",
+    "xmldom": "^0.6.0",
+    "xpath.js": "^1.1.0"
   },
   "devDependencies": {
-    "@iobroker/adapter-dev": "^1.0.1",
+    "@iobroker/adapter-dev": "^1.1.0",
     "@iobroker/testing": "^4.1.0",
     "@tsconfig/node16": "^1.0.3",
     "@types/chai": "^4.3.3",
