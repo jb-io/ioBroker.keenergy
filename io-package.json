@@ -16,18 +16,18 @@
                 "zh-cn": "首次出版"
             }
         },
-        "title": "keenergy adapter for ioBroker",
+        "title": "Manage and control your keenergy system",
         "titleLang": {
-            "en": "keenergy adapter for ioBroker",
-            "de": "keenergy-Adapter für ioBroker",
-            "ru": "адаптер для ioBroker",
-            "pt": "adaptador sharpergy para ioBroker",
-            "nl": "keenergy-adapter voor ioBroker",
-            "fr": "adaptateur keenergy pour ioBroker",
-            "it": "adattatore keenergy per ioBroker",
-            "es": "adaptador keenergy para ioBroker",
-            "pl": "adapter keenergy do ioBroker",
-            "zh-cn": "用于 ioBroker 的 keenergy 适配器"
+            "en": "Manage and control your keenergy system",
+            "de": "Verwalten und steuern Sie Ihr keenergy-System",
+            "ru": "Управляйте и контролируйте свою систему киэнерджи",
+            "pt": "Gerencie e controle seu sistema sharpergy",
+            "nl": "Beheer en controleer uw keenergy-systeem",
+            "fr": "Gérez et contrôlez votre système keenergy",
+            "it": "Gestisci e controlla il tuo sistema di energia elettrica",
+            "es": "Administre y controle su sistema keenergy",
+            "pl": "Zarządzaj i kontroluj swój system keenergy",
+            "zh-cn": "管理和控制您的 keenergy 系统"
         },
         "desc": {
             "en": "Adapter for KEBA KeEnergy Web HMI - Remote Control",

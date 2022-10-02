@@ -101,15 +101,16 @@ class Keenergy extends utils.Adapter {
             }
         }
 
-        const states = await this.kebaMiddleware.getStateConfigurations();
-        for (const id in states) {
-            const obj = states[id];
-            await this.setObjectNotExistsAsync(id, obj).then(() => {
+        const stateConfigurations = await this.kebaMiddleware.getStateConfigurations();
+        for (const id in stateConfigurations) {
+            const stateConfiguration = stateConfigurations[id];
+            // noinspection JSCheckFunctionSignatures
+            await this.setObjectNotExistsAsync(id, stateConfiguration).then(() => {
                 this._stateIds.push(id);
             });
 
 
-            if (obj.common.write) {
+            if (stateConfiguration.common.write) {
                 // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
                 this.subscribeStates(id);
                 // You can also add a subscription for multiple states. The following line watches all states starting with "lights."
@@ -134,7 +135,9 @@ class Keenergy extends utils.Adapter {
             for (const id in states) {
                 const val = states[id];
                 if (!existingStateIds.includes(id)) {
-                    await this.setObjectNotExistsAsync(id, await this.kebaMiddleware.getStateConfiguration(id));
+                    const stateConfiguration = await this.kebaMiddleware.getStateConfiguration(id);
+                    // noinspection JSCheckFunctionSignatures
+                    await this.setObjectNotExistsAsync(id, stateConfiguration);
                 }
                 await this.setStateAsync(id, { val, ack: true });
             }
@@ -170,7 +173,9 @@ class Keenergy extends utils.Adapter {
     async onStateDeleted(id) {
         this.log.warn(`state ${id} deleted`);
         this.log.debug(`recreate state ${id} in order to avoid errors.`);
-        await this.setObjectNotExistsAsync(id, await this.kebaMiddleware.getStateConfiguration(id));
+        const stateConfiguration = await this.kebaMiddleware.getStateConfiguration(id);
+        // noinspection JSCheckFunctionSignatures
+        await this.setObjectNotExistsAsync(id, stateConfiguration);
         const val = await this.kebaMiddleware.readState(id);
         await this.setStateAsync(id, { val, ack: true });
     }
@@ -182,9 +187,13 @@ class Keenergy extends utils.Adapter {
      */
     async onStateChangeExternal(id, state) {
         try {
-            const newVal = await this.kebaMiddleware.writeState(id, state.val);
-            this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack}, by = ${state.from})`);
-            await this.setStateAsync(id, { val: newVal, ack: true });
+            if (null !== state.val) {
+                const newVal = await this.kebaMiddleware.writeState(id, state.val);
+                this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack}, by = ${state.from})`);
+                await this.setStateAsync(id, { val: newVal, ack: true });
+            } else {
+                this.log.warn(`Ignoring state ${id} changed: ${state.val} (ack = ${state.ack}, by = ${state.from}) because value must not be null.`);
+            }
         } catch (e) {
             this.log.warn(`Ignoring state ${id} changed: ${state.val} (ack = ${state.ack}, by = ${state.from}) because var is not writable.`);
         }
