@@ -14,6 +14,8 @@
 
 Adapter for KEBA KeEnergy Web HMI - Remote Control
 
+![M-TEC](./doc/mtec.png)
+
 ## Developer manual
 This section is intended for the developer. It can be deleted later
 
