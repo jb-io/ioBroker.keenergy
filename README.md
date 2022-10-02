@@ -88,6 +88,17 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 
 ## Changelog
 
+<!--
+  Placeholder for the next version (at the beginning of the line):
+  ### **WORK IN PROGRESS**
+-->
+
+### **WORK IN PROGRESS**
+* (jb-tool) prepare adapter for public usage
+
+### 0.1.0
+* (jb-tool) first working release
+
 ### 0.0.1
 * (jb-tool) initial release
 

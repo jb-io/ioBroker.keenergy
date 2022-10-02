@@ -25,6 +25,7 @@
     "xpath.js": "^1.1.0"
   },
   "devDependencies": {
+    "@alcalzone/release-script": "^3.5.9",
     "@iobroker/adapter-dev": "^1.1.0",
     "@iobroker/testing": "^4.1.0",
     "@tsconfig/node16": "^1.0.3",
@@ -61,7 +62,8 @@
     "test": "npm run test:js && npm run test:package",
     "check": "tsc --noEmit -p tsconfig.check.json",
     "lint": "eslint",
-    "translate": "translate-adapter"
+    "translate": "translate-adapter",
+    "release": "release-script"
   },
   "bugs": {
     "url": "https://github.com/jb-tool/ioBroker.keenergy/issues"
