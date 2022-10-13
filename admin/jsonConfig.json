@@ -2,82 +2,166 @@
     "i18n": true,
     "type": "panel",
     "items": {
+        "headerConnection": {
+            "type": "header",
+            "text": "headerConnection",
+            "size": 2
+        },
         "host": {
+            "xs": 12,
+            "sm": 6,
+            "lg": 4,
             "type": "text",
-            "label": "Host",
+            "label": "host",
             "newLine": true
         },
         "timeout": {
+            "xs": 12,
+            "sm": 6,
+            "lg": 4,
             "type": "number",
-            "label": "Timeout",
-            "min": 100,
-            "newLine": true
+            "label": "timeout",
+            "min": 100
         },
         "updateInterval": {
+            "xs": 12,
+            "sm": 6,
+            "lg": 4,
             "type": "number",
-            "label": "Update Interval",
+            "label": "updateInterval",
             "min": 10,
             "newLine": true
         },
+        "headerConfiguration": {
+            "type": "header",
+            "text": "headerConfiguration",
+            "size": 2
+        },
         "languageCode": {
+            "xs": 12,
+            "sm": 6,
+            "lg": 4,
             "type": "select",
-            "label": "Language Code",
+            "label": "languageCode",
             "options": [
                 {
-                    "label": "auto",
+                    "label": "languageCodeAuto",
                     "value": "auto"
                 },
                 {
-                    "label": "en",
+                    "label": "languageCodeEn",
                     "value": "en"
                 },
                 {
-                    "label": "de",
+                    "label": "languageCodeDe",
                     "value": "de"
                 },
                 {
-                    "label": "fr",
+                    "label": "languageCodeFr",
                     "value": "fr"
                 }
             ],
             "newLine": true
         },
         "systemUnit": {
+            "xs": 12,
+            "sm": 6,
+            "lg": 4,
             "type": "select",
-            "label": "System Unit",
+            "label": "systemUnit",
             "options": [
                 {
-                    "label": "auto",
+                    "label": "systemUnitAuto",
                     "value": "auto"
                 },
                 {
-                    "label": "imperial",
+                    "label": "systemUnitImperial",
                     "value": "imperial"
                 },
                 {
-                    "label": "iso",
+                    "label": "systemUnitIso",
                     "value": "iso"
+                }
+            ]
+        },
+        "maxDisplayLevel": {
+            "xs": 12,
+            "sm": 6,
+            "lg": 4,
+            "type": "select",
+            "label": "maxDisplayLevel",
+            "options": [
+                {
+                    "label": "userLevel1",
+                    "value": 1
+                },
+                {
+                    "label": "userLevel2",
+                    "value": 2
+                },
+                {
+                    "label": "userLevel3",
+                    "value": 3
+                },
+                {
+                    "label": "userLevel4",
+                    "value": 4
+                },
+                {
+                    "label": "userLevel10",
+                    "value": 10
+                },
+                {
+                    "label": "userLevel99",
+                    "value": 99
                 }
             ],
             "newLine": true
         },
-        "maxDisplayLevel": {
-            "type": "number",
-            "label": "Max display level",
-            "min": 0,
-            "max": 99,
-            "newLine": true
-        },
         "maxInputLevel": {
-            "type": "number",
-            "label": "Max input level",
-            "min": 0,
-            "max": 99,
-            "newLine": true
+            "xs": 12,
+            "sm": 6,
+            "lg": 4,
+            "type": "select",
+            "label": "maxInputLevel",
+            "help": "userLevelHelp",
+            "options": [
+                {
+                    "label": "userLevel1",
+                    "value": 1
+                },
+                {
+                    "label": "userLevel2",
+                    "value": 2
+                },
+                {
+                    "label": "userLevel3",
+                    "value": 3
+                },
+                {
+                    "label": "userLevel4",
+                    "value": 4
+                },
+                {
+                    "label": "userLevel10",
+                    "value": 10
+                },
+                {
+                    "label": "userLevel99",
+                    "value": 99
+                }
+            ]
+        },
+        "headerAdvanced": {
+            "type": "header",
+            "text": "headerAdvanced",
+            "size": 2
         },
         "reloadAllStates": {
+            "xs": 12,
             "type": "checkbox",
-            "label": "Remove all states on adapter start",
+            "label": "reloadAllStates",
+            "help": "reloadAllStatesHelp",
             "newLine": true
         }
     }
