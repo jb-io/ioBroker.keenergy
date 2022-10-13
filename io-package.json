@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "keenergy",
-        "version": "0.1.0",
+        "version": "0.1.1",
         "news": {
             "0.0.1": {
                 "en": "initial release",
@@ -26,9 +26,20 @@
                 "es": "Primera versión de trabajo",
                 "pl": "Pierwsze wydanie robocze",
                 "zh-cn": "第一个工作版本"
+            },
+            "0.1.1": {
+                "en": "Test deployment",
+                "de": "Veröffentlichungstest",
+                "ru": "Первый рабочий релиз",
+                "pt": "Primeira versão de trabalho",
+                "nl": "Eerste werkende release",
+                "fr": "Première version de travail",
+                "it": "Prima versione funzionante",
+                "es": "Primera versión de trabajo",
+                "pl": "Pierwsze wydanie robocze",
+                "zh-cn": "第一个工作版本"
             }
         },
-        "title": "Manage and control your keenergy system",
         "titleLang": {
             "en": "Manage and control your keenergy system",
             "de": "Verwalten und steuern Sie Ihr keenergy-System",
@@ -57,10 +68,10 @@
             "jb-tool <iobroker.dev@joshua.billert.email>"
         ],
         "keywords": [
-            "ioBroker",
-            "template",
-            "Smart Home",
-            "home automation"
+            "Climate control",
+            "Keba",
+            "KeEnergy",
+            "Web HMI"
         ],
         "license": "MIT",
         "platform": "Javascript/Node.js",
