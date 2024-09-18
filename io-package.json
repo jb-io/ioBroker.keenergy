@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "keenergy",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "news": {
+      "0.2.0": {
+        "en": "refactored code to typescript\nupdate dependencies",
+        "de": "refactored code to typescript\naktualisierung der abhängigkeiten",
+        "ru": "refactored code to typescript\nобновление зависимостей",
+        "pt": "código refactored para typescript\ndependências",
+        "nl": "refactored code to typescript\nafhankelijkheden bijwerken",
+        "fr": "code refacturé pour dactylographier\nmettre à jour les dépendances",
+        "it": "codice refactored to typescript\naggiornamento dipendenze",
+        "es": "refactored code to typescript\ndependencias de actualización",
+        "pl": "przeklasyfikowany kod na maszynie\naktualizacji zależności",
+        "uk": "рефакторований код для відображення\nоновлення залежності",
+        "zh-cn": "重构代码到打字符\n更新依赖关系"
+      },
       "0.0.1": {
         "en": "initial release",
         "de": "Erstveröffentlichung",
