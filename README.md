@@ -8,7 +8,7 @@
 
 [![NPM](https://nodei.co/npm/iobroker.keenergy.png?downloads=true)](https://nodei.co/npm/iobroker.keenergy/)
 
-**Tests:** ![Test and Release](https://github.com/jb-tool/ioBroker.keenergy/workflows/Test%20and%20Release/badge.svg)
+**Tests:** ![Test and Release](https://github.com/jb-io/ioBroker.keenergy/workflows/Test%20and%20Release/badge.svg)
 
 ## keenergy adapter for ioBroker
 
@@ -80,18 +80,18 @@ If you want to contribute have a look at the [Developer Guide](./doc/CONTRIBUTE.
   ### **WORK IN PROGRESS**
 -->
 ### 0.1.1 (2022-10-02)
-* (jb-tool) prepare adapter for public usage
+* (jb-io) prepare adapter for public usage
 
 ### 0.1.0
-* (jb-tool) first working release
+* (jb-io) first working release
 
 ### 0.0.1
-* (jb-tool) initial release
+* (jb-io) initial release
 
 ## License
 MIT License
 
-Copyright (c) 2022 jb-tool
+Copyright (c) 2024 jb-io
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

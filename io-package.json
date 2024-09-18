@@ -65,7 +65,7 @@
             "zh-cn": "KEBA KeEnergy Web HMI 适配器 - 远程控制"
         },
         "authors": [
-            "jb-tool <iobroker.dev@joshua.billert.email>"
+            "jb-io <96919536+jb-io@users.noreply.github.com>"
         ],
         "keywords": [
             "Climate control",
@@ -78,8 +78,8 @@
         "main": "main.js",
         "icon": "keenergy.png",
         "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/jb-tool/ioBroker.keenergy/master/admin/keenergy.png",
-        "readme": "https://github.com/jb-tool/ioBroker.keenergy/blob/master/README.md",
+        "extIcon": "https://raw.githubusercontent.com/jb-io/ioBroker.keenergy/master/admin/keenergy.png",
+        "readme": "https://github.com/jb-io/ioBroker.keenergy/blob/master/README.md",
         "loglevel": "info",
         "mode": "daemon",
         "type": "climate-control",
