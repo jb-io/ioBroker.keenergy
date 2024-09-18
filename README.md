@@ -16,7 +16,7 @@ Adapter for KEBA KeEnergy Web HMI - Remote Control
 
 ![M-TEC](./doc/mtec.png)
 
-**This adapter connects to your KeEnergy Web HMI in your local network (no cloud access!) and provides the states in your ioBroker. 
+**This adapter connects to your KeEnergy Web HMI in your local network (no cloud access!) and provides the states in your ioBroker.
 You can also change certain states if allowed by definition of your Web HMI.**
 
 ## Configuration
@@ -25,13 +25,13 @@ You can also change certain states if allowed by definition of your Web HMI.**
 
 ### Host
 
-This can either be a IP-address or a hostname to the webinterface of your Web HMI 
+This can either be a IP-address or a hostname to the webinterface of your Web HMI
 
 ### Connection timeout
 
 **UNIT:** milliseconds
 
-Each connection has a timeout that must not be exceeded. 
+Each connection has a timeout that must not be exceeded.
 Large timeouts may block your system. Too small timeouts may break your connections before Web HMI could respond.
 
 You can adapt this timeout depending on your network speed.
@@ -40,7 +40,7 @@ You can adapt this timeout depending on your network speed.
 
 **UNIT:** seconds
 
-All states are updated in a periodical interval. 
+All states are updated in a periodical interval.
 Specifying to small intervals may overload either your ioBroker or your Web HMI. Larger intervals have the consequence that your data may be outdated.
 
 ### Language
@@ -79,6 +79,10 @@ If you want to contribute have a look at the [Developer Guide](./doc/CONTRIBUTE.
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (jb-io) refactored code to typescript
+* (jb-io) update dependencies
+
 ### 0.1.1 (2022-10-02)
 * (jb-io) prepare adapter for public usage
 
@@ -89,24 +93,5 @@ If you want to contribute have a look at the [Developer Guide](./doc/CONTRIBUTE.
 * (jb-io) initial release
 
 ## License
-MIT License
 
-Copyright (c) 2024 jb-io
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+[Licensed under GPLv3](LICENSE) Copyright (c) 2024 jb-io

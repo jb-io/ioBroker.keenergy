@@ -3,6 +3,14 @@
     "target": "directory",
     "adapterName": "keenergy",
     "title": "keenergy adapter for ioBroker",
+    "description": "Adapter for KEBA KeEnergy Web HMI - Remote Control",
+    "contributors": [],
+    "keywords": [
+        "heatpump",
+        "climate",
+        "keba",
+        "energy management"
+    ],
     "expert": "yes",
     "features": [
         "adapter"
@@ -13,28 +21,25 @@
     "connectionType": "local",
     "dataSource": "poll",
     "connectionIndicator": "yes",
-    "language": "JavaScript",
-    "nodeVersion": "16",
+    "language": "TypeScript",
+    "nodeVersion": "20",
     "adminUi": "json",
     "tools": [
-        "ESLint",
-        "type checking"
+        "ESLint"
     ],
-    "releaseScript": "no",
+    "releaseScript": "yes",
     "devServer": "yes",
     "devServerPort": 8081,
     "indentation": "Space (4)",
     "quotes": "single",
-    "es6class": "yes",
     "authorName": "jb-io",
     "authorGithub": "jb-io",
     "authorEmail": "96919536+jb-io@users.noreply.github.com",
     "gitRemoteProtocol": "SSH",
-    "gitCommit": "no",
+    "gitCommit": "yes",
     "defaultBranch": "master",
-    "license": "MIT License",
+    "license": "GNU GPLv3",
     "dependabot": "yes",
-    "creatorVersion": "2.2.0",
-    "replay": "/home/joshua/Projects/ioBroker/keenergy/ioBroker.keenergy/.create-adapter.json",
-    "description": "Adapter for KEBA KeEnergy Web HMI - Remote Control"
+    "creatorVersion": "2.6.3",
+    "replay": "/home/joshua/Projects/ioBroker/.create-adapter.json"
 }

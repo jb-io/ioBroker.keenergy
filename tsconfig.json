@@ -1,15 +1,20 @@
 // Root tsconfig to set the settings and power editor support for all TS files
 {
     // To update the compilation target, install a different version of @tsconfig/node... and reference it here
-    // https://github.com/tsconfig/bases#node-16-tsconfigjson
-    "extends": "@tsconfig/node16/tsconfig.json",
+    // https://github.com/tsconfig/bases#node-20-tsconfigjson
+    "extends": "@tsconfig/node20/tsconfig.json",
     "compilerOptions": {
         // do not compile anything, this file is just to configure type checking
+        // the compilation is configured in tsconfig.build.json
         "noEmit": true,
 
-        // check JS files
+        // check JS files, but do not compile them => tsconfig.build.json
         "allowJs": true,
         "checkJs": true,
+
+        "noEmitOnError": true,
+        "outDir": "./build/",
+        "removeComments": false,
 
         // This is necessary for the automatic typing of the adapter config
         "resolveJsonModule": true,
@@ -20,17 +25,25 @@
         // "strictNullChecks": true,
         // "strictPropertyInitialization": true,
         // "strictBindCallApply": true,
-        "noImplicitAny": false,
+        // "noImplicitAny": true,
         // "noUnusedLocals": true,
         // "noUnusedParameters": true,
-        "useUnknownInCatchVariables": false,
+        // Uncomment this if you want the old behavior of catch variables being `any`
+        // "useUnknownInCatchVariables": false,
 
+        "sourceMap": true,
+        "inlineSourceMap": false,
+
+        // Necessary for migration from js
+        "noImplicitAny": false
     },
     "include": [
-        "**/*.js",
-        "**/*.d.ts"
+        "src/**/*.ts",
+        "test/**/*.ts"
     ],
     "exclude": [
-        "node_modules/**"
+        "build/**",
+        "node_modules/**",
+        "widgets/**"
     ]
 }

@@ -1,137 +1,141 @@
 {
-    "common": {
-        "name": "keenergy",
-        "version": "0.1.1",
-        "news": {
-            "0.0.1": {
-                "en": "initial release",
-                "de": "Erstveröffentlichung",
-                "ru": "Начальная версия",
-                "pt": "lançamento inicial",
-                "nl": "Eerste uitgave",
-                "fr": "Première version",
-                "it": "Versione iniziale",
-                "es": "Versión inicial",
-                "pl": "Pierwsze wydanie",
-                "zh-cn": "首次出版"
-            },
-            "0.1.0": {
-                "en": "First working release",
-                "de": "Erste Arbeitsversion",
-                "ru": "Первый рабочий релиз",
-                "pt": "Primeira versão de trabalho",
-                "nl": "Eerste werkende release",
-                "fr": "Première version de travail",
-                "it": "Prima versione funzionante",
-                "es": "Primera versión de trabajo",
-                "pl": "Pierwsze wydanie robocze",
-                "zh-cn": "第一个工作版本"
-            },
-            "0.1.1": {
-                "en": "Test deployment",
-                "de": "Veröffentlichungstest",
-                "ru": "Первый рабочий релиз",
-                "pt": "Primeira versão de trabalho",
-                "nl": "Eerste werkende release",
-                "fr": "Première version de travail",
-                "it": "Prima versione funzionante",
-                "es": "Primera versión de trabajo",
-                "pl": "Pierwsze wydanie robocze",
-                "zh-cn": "第一个工作版本"
-            }
-        },
-        "titleLang": {
-            "en": "Manage and control your keenergy system",
-            "de": "Verwalten und steuern Sie Ihr keenergy-System",
-            "ru": "Управляйте и контролируйте свою систему киэнерджи",
-            "pt": "Gerencie e controle seu sistema sharpergy",
-            "nl": "Beheer en controleer uw keenergy-systeem",
-            "fr": "Gérez et contrôlez votre système keenergy",
-            "it": "Gestisci e controlla il tuo sistema di energia elettrica",
-            "es": "Administre y controle su sistema keenergy",
-            "pl": "Zarządzaj i kontroluj swój system keenergy",
-            "zh-cn": "管理和控制您的 keenergy 系统"
-        },
-        "desc": {
-            "en": "Adapter for KEBA KeEnergy Web HMI - Remote Control",
-            "de": "Adapter für KEBA KeEnergy Web HMI - Fernbedienung",
-            "ru": "Адаптер для KEBA KeEnergy Web HMI — дистанционное управление",
-            "pt": "Adaptador para KEBA KeEnergy Web HMI - Controle Remoto",
-            "nl": "Adapter voor KEBA KeEnergy Web HMI - Afstandsbediening",
-            "fr": "Adaptateur pour KEBA KeEnergy Web HMI - Télécommande",
-            "it": "Adattatore per KEBA KeEnergy Web HMI - Telecomando",
-            "es": "Adaptador para KEBA KeEnergy Web HMI - Control Remoto",
-            "pl": "Adapter do KEBA KeEnergy Web HMI - Zdalne sterowanie",
-            "zh-cn": "KEBA KeEnergy Web HMI 适配器 - 远程控制"
-        },
-        "authors": [
-            "jb-io <96919536+jb-io@users.noreply.github.com>"
-        ],
-        "keywords": [
-            "Climate control",
-            "Keba",
-            "KeEnergy",
-            "Web HMI"
-        ],
-        "license": "MIT",
-        "platform": "Javascript/Node.js",
-        "main": "main.js",
-        "icon": "keenergy.png",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/jb-io/ioBroker.keenergy/master/admin/keenergy.png",
-        "readme": "https://github.com/jb-io/ioBroker.keenergy/blob/master/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "climate-control",
-        "compact": true,
-        "connectionType": "local",
-        "dataSource": "poll",
-        "adminUI": {
-            "config": "json"
-        },
-        "dependencies": [
-            {
-                "js-controller": ">=3.3.22"
-            }
-        ],
-        "globalDependencies": [
-            {
-                "admin": ">=5.1.13"
-            }
-        ]
+  "common": {
+    "name": "keenergy",
+    "version": "0.1.1",
+    "news": {
+      "0.0.1": {
+        "en": "initial release",
+        "de": "Erstveröffentlichung",
+        "ru": "Начальная версия",
+        "pt": "lançamento inicial",
+        "nl": "Eerste uitgave",
+        "fr": "Première version",
+        "it": "Versione iniziale",
+        "es": "Versión inicial",
+        "pl": "Pierwsze wydanie",
+        "zh-cn": "首次出版"
+      },
+      "0.1.0": {
+        "en": "First working release",
+        "de": "Erste Arbeitsversion",
+        "ru": "Первый рабочий релиз",
+        "pt": "Primeira versão de trabalho",
+        "nl": "Eerste werkende release",
+        "fr": "Première version de travail",
+        "it": "Prima versione funzionante",
+        "es": "Primera versión de trabajo",
+        "pl": "Pierwsze wydanie robocze",
+        "zh-cn": "第一个工作版本"
+      },
+      "0.1.1": {
+        "en": "Test deployment",
+        "de": "Veröffentlichungstest",
+        "ru": "Первый рабочий релиз",
+        "pt": "Primeira versão de trabalho",
+        "nl": "Eerste werkende release",
+        "fr": "Première version de travail",
+        "it": "Prima versione funzionante",
+        "es": "Primera versión de trabajo",
+        "pl": "Pierwsze wydanie robocze",
+        "zh-cn": "第一个工作版本"
+      }
     },
-    "native": {
-        "host": "127.0.0.1",
-        "timeout": "3000",
-        "updateInterval": "300",
-        "languageCode": "auto",
-        "systemUnit": "auto",
-        "maxDisplayLevel": "2",
-        "maxInputLevel": "2",
-        "reloadAllStates": "0"
+    "titleLang": {
+      "en": "Manage and control your keenergy system",
+      "de": "Verwalten und steuern Sie Ihr keenergy-System",
+      "ru": "Управляйте и контролируйте свою систему киэнерджи",
+      "pt": "Gerencie e controle seu sistema sharpergy",
+      "nl": "Beheer en controleer uw keenergy-systeem",
+      "fr": "Gérez et contrôlez votre système keenergy",
+      "it": "Gestisci e controlla il tuo sistema di energia elettrica",
+      "es": "Administre y controle su sistema keenergy",
+      "pl": "Zarządzaj i kontroluj swój system keenergy",
+      "zh-cn": "管理和控制您的 keenergy 系统"
     },
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "Device or service connected",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        }
+    "desc": {
+      "en": "Adapter for KEBA KeEnergy Web HMI - Remote Control",
+      "de": "Adapter für KEBA KeEnergy Web HMI - Fernbedienung",
+      "ru": "Адаптер для KEBA KeEnergy Web HMI — дистанционное управление",
+      "pt": "Adaptador para KEBA KeEnergy Web HMI - Controle Remoto",
+      "nl": "Adapter voor KEBA KeEnergy Web HMI - Afstandsbediening",
+      "fr": "Adaptateur pour KEBA KeEnergy Web HMI - Télécommande",
+      "it": "Adattatore per KEBA KeEnergy Web HMI - Telecomando",
+      "es": "Adaptador para KEBA KeEnergy Web HMI - Control Remoto",
+      "pl": "Adapter do KEBA KeEnergy Web HMI - Zdalne sterowanie",
+      "zh-cn": "KEBA KeEnergy Web HMI 适配器 - 远程控制"
+    },
+    "authors": [
+      "jb-io <96919536+jb-io@users.noreply.github.com>"
+    ],
+    "keywords": [
+      "Climate control",
+      "Keba",
+      "KeEnergy",
+      "Web HMI"
+    ],
+    "licenseInformation": {
+      "type": "free",
+      "license": "GPL-3.0-or-later"
+    },
+    "platform": "Javascript/Node.js",
+    "main": "build/main.js",
+    "icon": "keenergy.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/jb-io/ioBroker.keenergy/master/admin/keenergy.png",
+    "readme": "https://github.com/jb-io/ioBroker.keenergy/blob/master/README.md",
+    "loglevel": "info",
+    "tier": 3,
+    "mode": "daemon",
+    "type": "climate-control",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "json"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=5.0.0"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=6.0.0"
+      }
     ]
+  },
+  "native": {
+    "host": "127.0.0.1",
+    "timeout": "3000",
+    "updateInterval": "300",
+    "languageCode": "auto",
+    "systemUnit": "auto",
+    "maxDisplayLevel": "2",
+    "maxInputLevel": "2",
+    "reloadAllStates": "0"
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }

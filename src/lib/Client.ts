@@ -1,20 +1,17 @@
-'use strict';
+import axios from "axios";
+import globalUtils from "./globalUtils";
 
-const axios = require('axios');
-const globalUtils = require('./globalUtils');
+export default class Client {
 
-class Client {
+    private readonly _baseUri: string;
+    private readonly _timeout: number;
 
-    /**
-     * @param baseUri {string}
-     * @param timeout {number}
-     */
-    constructor(baseUri, timeout) {
+    public constructor(baseUri: string, timeout: number) {
         this._baseUri = baseUri;
         this._timeout = timeout;
     }
 
-    post(uri, data = {}) {
+    public post(uri: string, data: object = {}): Promise<any> {
         return new Promise((resolve, reject) => {
             globalUtils.log.silly(`POST ${this._baseUri}${uri}` + '\n' + '=> ' + JSON.stringify(data));
             // @ts-ignore
@@ -43,5 +40,3 @@ class Client {
     }
 
 }
-
-module.exports = Client;

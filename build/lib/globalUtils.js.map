@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/globalUtils.ts"],
+  "sourcesContent": ["import * as utils from '@iobroker/adapter-core';\n\nclass GlobalUtils {\n\n    private _adapter: null|utils.AdapterInstance = null;\n\n    constructor() {\n        this._adapter = null;\n    }\n\n    public set adapter(adapter: utils.AdapterInstance) {\n        this._adapter = adapter;\n    }\n\n    public get adapter(): utils.AdapterInstance {\n        return this._adapter as utils.AdapterInstance;\n    }\n\n    get log(): ioBroker.Logger {\n        return this.adapter.log;\n    }\n\n    get config(): ioBroker.AdapterConfig {\n        return this.adapter.config;\n    }\n\n}\n\nconst globalUtils = new GlobalUtils();\n\nexport default globalUtils;\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAEA,MAAM,YAAY;AAAA,EAEN,WAAuC;AAAA,EAE/C,cAAc;AACV,SAAK,WAAW;AAAA,EACpB;AAAA,EAEA,IAAW,QAAQ,SAAgC;AAC/C,SAAK,WAAW;AAAA,EACpB;AAAA,EAEA,IAAW,UAAiC;AACxC,WAAO,KAAK;AAAA,EAChB;AAAA,EAEA,IAAI,MAAuB;AACvB,WAAO,KAAK,QAAQ;AAAA,EACxB;AAAA,EAEA,IAAI,SAAiC;AACjC,WAAO,KAAK,QAAQ;AAAA,EACxB;AAEJ;AAEA,MAAM,cAAc,IAAI,YAAY;AAEpC,IAAO,sBAAQ;",
+  "names": []
+}

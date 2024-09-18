@@ -1,10 +1,13 @@
 'use strict';
 
-const globalUtils = require('./globalUtils');
+import globalUtils from "./globalUtils";
 
-const getCompareFunction = (expression) => {
+type ValueType = string|number|boolean;
+type CompareFunction = (value: ValueType) => boolean;
+
+const getCompareFunction = (expression: string|null): CompareFunction => {
     if (!expression) {
-        return (value) => {
+        return (value: ValueType): boolean => {
             if (typeof value === 'boolean') {
                 return value;
             }
@@ -51,9 +54,9 @@ const getCompareFunction = (expression) => {
             case '!=':
                 return (value) => value !== compareValue
             case '>':
-                return (value) => value > compareValue
+                return (value) => (value as number) > compareValue
             case '<':
-                return (value) => value < compareValue
+                return (value) => (value as number) < compareValue
             default:
                 globalUtils.log.warn(`Could not interpret ${operator} as operator!`);
                 return alwaysFalse;
@@ -64,14 +67,8 @@ const getCompareFunction = (expression) => {
     return alwaysFalse;
 }
 
-/**
- *
- * @param {string|number|boolean} value
- * @param {string|null} expression
- * @returns {boolean}
- */
-const checkCondition = (value, expression = null) => {
+const checkCondition = (value: ValueType, expression: string|null = null): boolean => {
     return getCompareFunction(expression)(value);
 }
 
-module.exports = checkCondition;
+export default checkCondition;

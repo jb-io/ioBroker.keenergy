@@ -1,24 +1,23 @@
-'use strict';
-
 /*
- * Created with @iobroker/create-adapter v2.2.0
+ * Created with @iobroker/create-adapter v2.6.3
  */
 
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
-const utils = require('@iobroker/adapter-core');
+import * as utils from '@iobroker/adapter-core';
 
 // Load your modules here:
-const KebaMiddleware = require('./lib/KebaMiddleware');
-const globalUtils = require('./lib/globalUtils');
-
+import KebaMiddleware from './lib/KebaMiddleware';
+import globalUtils from './lib/globalUtils';
 
 class Keenergy extends utils.Adapter {
 
-    /**
-     * @param {Partial<utils.AdapterOptions>} [options={}]
-     */
-    constructor(options) {
+
+    private _periodically: ReturnType<typeof this.setInterval> = null;
+    private _kebaMiddleware: null|KebaMiddleware = null;
+    private _stateIds: Array<string> = [];
+
+    public constructor(options: Partial<utils.AdapterOptions> = {}) {
         super({
             ...options,
             name: 'keenergy',
@@ -46,27 +45,21 @@ class Keenergy extends utils.Adapter {
         // this.log.debug('config updateInterval: ' + config.updateInterval);
     }
 
-    /**
-     * @returns {KebaMiddleware}
-     */
-    get kebaMiddleware() {
+    public get kebaMiddleware(): KebaMiddleware {
         if (!this._kebaMiddleware) {
             this._kebaMiddleware = new KebaMiddleware();
         }
         return this._kebaMiddleware;
     }
 
-    /**
-     * @param state {boolean}
-     */
-    setConnectionState(state) {
+    setConnectionState(state: boolean): void {
         this.setState('info.connection', state, true);
     }
 
     /**
      * Is called when databases are connected and adapter received configuration.
      */
-    async onReady() {
+    private async onReady(): Promise<void> {
 
         // Reset the connection indicator during startup
         this.setConnectionState(false);
@@ -92,25 +85,25 @@ class Keenergy extends utils.Adapter {
         // }
     }
 
-    async createStates() {
+    private async createStates() {
 
         if (this.config.reloadAllStates) {
             const existingStateIds = await this.getExistingStateIds();
             for (const id in existingStateIds) {
-                await this.delStateAsync(this.#removeNamespaceFromStateId(id));
+                await this.delStateAsync(this.removeNamespaceFromStateId(id));
             }
         }
 
         const stateConfigurations = await this.kebaMiddleware.getStateConfigurations();
         for (const id in stateConfigurations) {
-            const stateConfiguration = stateConfigurations[id];
+            const stateConfiguration = stateConfigurations[id] as ioBroker.SettableObject;
             // noinspection JSCheckFunctionSignatures
             await this.setObjectNotExistsAsync(id, stateConfiguration).then(() => {
                 this._stateIds.push(id);
             });
 
 
-            if (stateConfiguration.common.write) {
+            if (stateConfiguration.common && (stateConfiguration.common as ioBroker.StateCommon).write) {
                 // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
                 this.subscribeStates(id);
                 // You can also add a subscription for multiple states. The following line watches all states starting with "lights."
@@ -121,12 +114,12 @@ class Keenergy extends utils.Adapter {
         }
     }
 
-    registerPeriodicalCall() {
+    private registerPeriodicalCall() {
         const updateInterval = parseInt(this.config.updateInterval) * 1000;
         this._periodically = this.setInterval(this.onPeriodically.bind(this), updateInterval);
     }
 
-    async onPeriodically() {
+    private async onPeriodically() {
         if (await this.kebaMiddleware.keba.checkConnection()) {
 
             const states = await this.kebaMiddleware.readStates(this._stateIds);
@@ -135,25 +128,24 @@ class Keenergy extends utils.Adapter {
             for (const id in states) {
                 const val = states[id];
                 if (!existingStateIds.includes(id)) {
-                    const stateConfiguration = await this.kebaMiddleware.getStateConfiguration(id);
+                    const stateConfiguration = await this.kebaMiddleware.getStateConfiguration(id) as ioBroker.SettableObject;
                     // noinspection JSCheckFunctionSignatures
                     await this.setObjectNotExistsAsync(id, stateConfiguration);
                 }
-                await this.setStateAsync(id, { val, ack: true });
+                await this.setState(id, val, true);
             }
 
         }
     }
 
     async getExistingStateIds() {
-        return Object.keys(await this.getStatesAsync('APPL.*')).map((id) => this.#removeNamespaceFromStateId(id));
+        return Object.keys(await this.getStatesAsync('APPL.*')).map((id) => this.removeNamespaceFromStateId(id));
     }
 
     /**
      * Is called when adapter shuts down - callback has to be called under any circumstances!
-     * @param {() => void} callback
      */
-    onUnload(callback) {
+    private onUnload(callback: () => void): void {
         try {
             // Here you must clear all timeouts or intervals that may still be active
             if (this._periodically) {
@@ -161,36 +153,33 @@ class Keenergy extends utils.Adapter {
             }
 
             callback();
-        } catch (e) {
+        } catch {
             callback();
         }
     }
 
     /**
      * Is called if a subscribed state changes
-     * @param {string} id
      */
-    async onStateDeleted(id) {
+    private async onStateDeleted(id: string): Promise<void> {
         this.log.warn(`state ${id} deleted`);
         this.log.debug(`recreate state ${id} in order to avoid errors.`);
-        const stateConfiguration = await this.kebaMiddleware.getStateConfiguration(id);
+        const stateConfiguration = await this.kebaMiddleware.getStateConfiguration(id) as ioBroker.SettableObject;
         // noinspection JSCheckFunctionSignatures
         await this.setObjectNotExistsAsync(id, stateConfiguration);
         const val = await this.kebaMiddleware.readState(id);
-        await this.setStateAsync(id, { val, ack: true });
+        await this.setState(id, val, true );
     }
 
     /**
      * Is called if a subscribed state changes
-     * @param {string} id
-     * @param {ioBroker.State} state
      */
-    async onStateChangeExternal(id, state) {
+    private async onStateChangeExternal(id: string, state: ioBroker.State): Promise<void> {
         try {
             if (null !== state.val) {
                 const newVal = await this.kebaMiddleware.writeState(id, state.val);
                 this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack}, by = ${state.from})`);
-                await this.setStateAsync(id, { val: newVal, ack: true });
+                await this.setState(id, newVal, true);
             } else {
                 this.log.warn(`Ignoring state ${id} changed: ${state.val} (ack = ${state.ack}, by = ${state.from}) because value must not be null.`);
             }
@@ -199,7 +188,7 @@ class Keenergy extends utils.Adapter {
         }
     }
 
-    #removeNamespaceFromStateId(id) {
+    protected removeNamespaceFromStateId(id: string): string {
         if (id.search(this.namespace) === 0) {
             id = id.substring(this.namespace.length + 1);
         }
@@ -211,8 +200,8 @@ class Keenergy extends utils.Adapter {
      * @param {string} id
      * @param {ioBroker.State | null | undefined} state
      */
-    async onStateChange(id, state) {
-        id = this.#removeNamespaceFromStateId(id);
+    private async onStateChange(id: string, state: ioBroker.State|null|undefined): Promise<void> {
+        id = this.removeNamespaceFromStateId(id);
 
         if (!state) {
             // The state was deleted
@@ -231,10 +220,7 @@ class Keenergy extends utils.Adapter {
 
 if (require.main !== module) {
     // Export the constructor in compact mode
-    /**
-     * @param {Partial<utils.AdapterOptions>} [options={}]
-     */
-    module.exports = (options) => new Keenergy(options);
+    module.exports = (options: Partial<utils.AdapterOptions> | undefined) => new Keenergy(options);
 } else {
     // otherwise start the instance directly
     new Keenergy();

@@ -1,51 +1,40 @@
 'use strict';
 
-class KebaStateTransformer {
+type StateNative = {
+    name: string;
+    type: 'numeric' | 'bool' | 'enum' | 'text';
+};
 
-    constructor() {
+type StateCommon = {
+    name: string;
+    type: 'number' | 'boolean' | 'string';
+    role: string;
+    read: boolean;
+    write: boolean;
+    unit?: string;
+    states?: Record<number, string>;
+    min?: number;
+    max?: number;
+};
+
+type StateConfiguration = {
+    type: string;
+    common: StateCommon;
+    native: StateNative;
+};
+
+
+export default class KebaStateTransformer {
+
+    public constructor() {
     }
 
-    /**
-     * @param {string} name
-     * @returns {string}
-     */
-    transformNameToId(name) {
+    public transformNameToId(name: string): string {
         const regex = /\[(\d+)]\./g;
         return name.replace(regex, '.$1.');
     }
 
-    /**
-     * @typedef StateNative
-     * @type {Object}
-     * @property {string} name
-     * @property {("numeric"|"bool"|"enum"|"text")} type
-     */
-    /**
-     * @typedef StateCommon
-     * @type {Object}
-     * @property {string} name
-     * @property {("number"|"boolean"|"string")} type
-     * @property {string} role
-     * @property {boolean} read
-     * @property {boolean} write
-     * @property {string} [unit]
-     * @property {Object.<number, string>} [states]
-     * @property {number} [min]
-     * @property {number} [max]
-     */
-    /**
-     * @typedef StateConfiguration
-     * @type {Object}
-     * @property {string} type
-     * @property {StateCommon} common
-     * @property {StateNative} native
-     */
-    /**
-     * @param {string} name
-     * @param readWriteVar
-     * @returns {StateConfiguration}
-     */
-    transformVarToSate(name, readWriteVar) {
+    public transformVarToSate(name:string, readWriteVar: any): StateConfiguration {
 
         const typeMapping = {
             'numeric': 'number',
@@ -58,7 +47,7 @@ class KebaStateTransformer {
         if (readWriteVar.attributes && readWriteVar.attributes['longText']) {
             descriptiveName = readWriteVar.attributes['longText'];
         }
-        const common = {
+        const common: StateCommon = {
             name: descriptiveName,
             type: typeMapping[readWriteVar.type],
             role: 'value', // https://www.iobroker.net/#de/documentation/basics/roles.md
@@ -94,5 +83,3 @@ class KebaStateTransformer {
 
 
 }
-
-module.exports = KebaStateTransformer;
