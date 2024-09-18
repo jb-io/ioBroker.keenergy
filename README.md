@@ -79,7 +79,7 @@ If you want to contribute have a look at the [Developer Guide](./doc/CONTRIBUTE.
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 0.2.1 (2024-09-18)
 * (jb-io) bugfix missing dependencies
 
 ### 0.2.0 (2024-09-18)

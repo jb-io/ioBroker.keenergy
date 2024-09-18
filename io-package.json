@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "keenergy",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "news": {
+      "0.2.1": {
+        "en": "bugfix missing dependencies",
+        "de": "bugfix fehlende abhängigkeiten",
+        "ru": "отсутствуют зависимости",
+        "pt": "dependências faltantes do bugfix",
+        "nl": "bugfix ontbreekt afhankelijkheden",
+        "fr": "bugfix dépendances manquantes",
+        "it": "bugfix mancanti dipendenze",
+        "es": "dependencia de errores",
+        "pl": "brakujące zależności bugfix",
+        "uk": "виправлення відсутніх залежностей",
+        "zh-cn": "错误修正缺失依赖性"
+      },
       "0.2.0": {
         "en": "refactored code to typescript\nupdate dependencies",
         "de": "refactored code to typescript\naktualisierung der abhängigkeiten",

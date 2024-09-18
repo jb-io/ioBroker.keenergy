@@ -1,6 +1,6 @@
 {
   "name": "iobroker.keenergy",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Adapter for KEBA KeEnergy Web HMI - Remote Control",
   "author": {
     "name": "jb-io",
